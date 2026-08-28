@@ -7,6 +7,10 @@ whatever application you are using.**
 [![Rust](https://img.shields.io/badge/Rust-GTK4%20%2F%20libadwaita-orange.svg)](https://gtk-rs.org)
 [![Flatpak](https://img.shields.io/badge/Flatpak-GNOME%2049-4a86cf.svg)](build-aux/fr.arouene.Susurre.yaml)
 
+<p align="center">
+<img width="506" height="851" alt="Susurre UI-min" src="https://github.com/user-attachments/assets/a1c0761e-e785-4fa6-9404-9bdeee24136f" />
+</p>
+
 Susurre runs Whisper on your own machine. No account, no API key, and no audio
 leaves the computer. The only network traffic is downloading the speech model
 you pick, once.
