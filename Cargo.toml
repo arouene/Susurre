@@ -1,0 +1,39 @@
+[package]
+name = "susurre"
+version = "0.1.0"
+edition = "2021"
+description = "Local voice dictation for GNOME"
+
+[dependencies]
+adw = { package = "libadwaita", version = "0.7", features = ["v1_5"] }
+gtk = { package = "gtk4", version = "0.9", features = ["v4_12"] }
+ashpd = { version = "0.9", features = ["gtk4"] }
+async-channel = "2"
+futures-util = "0.3"
+cpal = "0.15"
+ksni = { version = "0.3", default-features = false, features = ["async-io"] }
+serde = { version = "1", features = ["derive"] }
+toml = "0.8"
+ureq = "2"
+anyhow = "1"
+hound = "3"
+zbus = { version = "4", default-features = false, features = ["async-io"] }
+whisper-rs = "0.14"
+# Only ever a feature carrier. whisper-rs 0.14 forwards cuda, hipblas, metal,
+# intel-sycl and coreml to its -sys crate but forgot vulkan, which -sys does
+# support. Declaring -sys directly lets cargo's feature unification turn
+# GGML_VULKAN on for the very same crate whisper-rs compiles.
+whisper-rs-sys = { version = "0.13", optional = true }
+log = "0.4"
+env_logger = "0.11"
+regex = "1.13.1"
+unicode-normalization = "0.1"
+
+[features]
+# GPU offload through Vulkan. Needs the Vulkan headers, loader and glslc at
+# build time; they are all in the GNOME SDK.
+vulkan = ["dep:whisper-rs-sys", "whisper-rs-sys/vulkan"]
+
+[profile.release]
+lto = true
+codegen-units = 1

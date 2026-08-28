@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Susurre
+Comment=Local voice dictation
+Exec=susurre
+Icon=fr.arouene.Susurre
+Terminal=false
+Type=Application
+Categories=Utility;Accessibility;AudioVideo;
+Keywords=dictation;voice;speech;transcription;whisper;
+StartupNotify=false
+X-GNOME-UsesNotifications=true

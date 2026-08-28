@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>fr.arouene.Susurre</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <name>Susurre</name>
+  <summary>Local voice dictation for GNOME</summary>
+  <description>
+    <p>
+      Susurre turns speech into text, entirely on your machine. Hold the
+      shortcut, speak, and the text is typed into the focused application.
+    </p>
+    <p>Two engines to choose from: whisper.cpp and faster-whisper (CTranslate2).</p>
+  </description>
+  <launchable type="desktop-id">fr.arouene.Susurre.desktop</launchable>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.0" date="2026-08-26"/>
+  </releases>
+</component>

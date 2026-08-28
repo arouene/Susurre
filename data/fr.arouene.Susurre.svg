@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!--
+    Susurre. A microphone sitting inside a cogwheel: the cog is the nod to Rust,
+    whose own mark is a gear, without reusing the trademarked logo itself.
+    Three contrast steps (rust background, white cog, rust microphone) so the
+    microphone silhouette survives down to 32 px, where a single-colour glyph
+    turns to mush.
+
+    Keep this comment inside <svg>. gdk-pixbuf, which AppStream uses to render
+    the icon, sniffs the file format from its very first bytes and only accepts
+    a leading "<?xml" or "<svg"; a comment ahead of them makes appstreamcli
+    compose fail the build with "Unrecognized image file format".
+  -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E2603F"/>
+      <stop offset="1" stop-color="#A8321C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <!-- Cogwheel: 9 teeth, outer radius 52, root radius 44. The stroke rounds
+       the tooth corners without a second path. -->
+  <path fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round" d="
+    M 55.0 10.8 L 73.0 10.8 L 79.0 20.7 L 79.0 20.7 L 90.0 17.0 L 103.8 28.6 L 102.1 40.0
+     L 102.1 40.0 L 112.9 44.2 L 116.0 62.0 L 107.3 69.6 L 107.3 69.6 L 112.9 79.8
+     L 103.8 95.4 L 92.3 95.7 L 92.3 95.7 L 90.0 107.0 L 73.0 113.2 L 64.0 106.0 L 64.0 106.0
+     L 55.0 113.2 L 38.0 107.0 L 35.7 95.7 L 35.7 95.7 L 24.2 95.4 L 15.1 79.8 L 20.7 69.6
+     L 20.7 69.6 L 12.0 62.0 L 15.1 44.2 L 25.9 40.0 L 25.9 40.0 L 24.2 28.6 L 38.0 17.0
+     L 49.0 20.7 L 49.0 20.7 Z"/>
+  <circle cx="64" cy="62" r="37" fill="#fff"/>
+
+  <!-- Microphone -->
+  <g fill="none" stroke="#A8321C" stroke-width="7.6" stroke-linecap="round">
+    <rect x="53.5" y="32.3" width="20.9" height="41.8"
+          rx="10.4" fill="#A8321C" stroke="none"/>
+    <path d="M46.0 60.8v5.7a18.1 18.1 0 0 0 36.1 0v-5.7"/>
+    <path d="M64 84.5v12.3"/>
+    <path d="M48.8 96.9h30.4"/>
+  </g>
+</svg>

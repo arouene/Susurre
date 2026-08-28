@@ -1,0 +1,70 @@
+id: fr.arouene.Susurre
+runtime: org.gnome.Platform
+runtime-version: '49'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+  - org.freedesktop.Sdk.Extension.llvm20
+command: susurre
+
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --device=dri
+  # Model downloads from Hugging Face
+  - --share=network
+  # Microphone (pipewire-pulse)
+  - --socket=pulseaudio
+  # Notification area icon (AppIndicator extension)
+  - --talk-name=org.kde.StatusNotifierWatcher
+  # "Change" on the shortcut row opens Settings › Apps › Susurre
+  - --talk-name=org.gnome.Settings
+  # IBus engine: the private bus socket, and the file naming its address.
+  # This is what lets dictation insert text the keyboard layout cannot type.
+  - --filesystem=xdg-cache/ibus
+  - --filesystem=xdg-config/ibus:ro
+  # GlobalShortcuts, RemoteDesktop and Background go through
+  # xdg-desktop-portal, reachable by default. No extra permission needed.
+
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/llvm20/bin
+  prepend-ld-library-path: /usr/lib/sdk/llvm20/lib
+  env:
+    CARGO_HOME: /run/build/susurre/cargo
+    LIBCLANG_PATH: /usr/lib/sdk/llvm20/lib
+
+modules:
+  - name: faster-whisper
+    buildsystem: simple
+    build-options:
+      build-args:
+        - --share=network
+    build-commands:
+      - pip3 install --prefix=/app --no-compile faster-whisper
+
+  - name: susurre
+    buildsystem: simple
+    build-options:
+      build-args:
+        - --share=network
+    build-commands:
+      - cargo build --release --features vulkan
+      - install -Dm755 target/release/susurre /app/bin/susurre
+      - install -Dm755 python/susurre-ct2.py /app/libexec/susurre-ct2.py
+      - install -Dm644 data/fr.arouene.Susurre.desktop
+        /app/share/applications/fr.arouene.Susurre.desktop
+      - install -Dm644 data/fr.arouene.Susurre.metainfo.xml
+        /app/share/metainfo/fr.arouene.Susurre.metainfo.xml
+      - install -Dm644 data/fr.arouene.Susurre.svg
+        /app/share/icons/hicolor/scalable/apps/fr.arouene.Susurre.svg
+    sources:
+      - type: dir
+        path: ..
+        skip:
+          - .git
+          - .flatpak-builder
+          - .cargo-sdk
+          - build
+          - repo
+          - target

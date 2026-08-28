@@ -1,0 +1,6 @@
+target/
+build/
+repo/
+.cargo-sdk/
+.flatpak-builder/
+susurre.flatpak
