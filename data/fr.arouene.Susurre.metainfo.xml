@@ -13,8 +13,16 @@
     <p>Two engines to choose from: whisper.cpp and faster-whisper (CTranslate2).</p>
   </description>
   <launchable type="desktop-id">fr.arouene.Susurre.desktop</launchable>
+  <url type="homepage">https://github.com/arouene/Susurre</url>
+  <url type="bugtracker">https://github.com/arouene/Susurre/issues</url>
+  <!-- The developer id shares the namespace of the application id. -->
+  <developer id="fr.arouene">
+    <name>Aurelien Rouene</name>
+  </developer>
+  <update_contact>aurelien@rouene.fr</update_contact>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="1.0.0" date="2026-08-29"/>
     <release version="0.1.0" date="2026-08-26"/>
   </releases>
 </component>
