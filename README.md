@@ -209,6 +209,7 @@ in silence.
 | `build-aux/python3-faster-whisper.yaml` | Generated. Every wheel, sha256 pinned |
 | `build-aux/update-vendor.sh` | Regenerates both of the above |
 | `build-aux/check-vendor.py` | Fails the build when they drift from `Cargo.lock` |
+| `build-aux/flathub-manifest.py` | Derives the Flathub manifest from the local one |
 
 ### Vendored dependencies
 
@@ -239,6 +240,24 @@ carries the list of packages that must come as platform wheels rather than
 source archives: `tokenizers` and `hf-xet` are Rust, `av` is C against ffmpeg,
 `numpy` wants meson and a BLAS. Building those from source inside an offline
 sandbox is not worth attempting.
+
+### Submitting to Flathub
+
+Flathub has no working directory to copy from, so its manifest cannot use the
+`type: dir` source the local build relies on. Rather than keep a second copy of
+the manifest and let the two drift, generate it:
+
+```sh
+./build-aux/flathub-manifest.py v1.0.0 > ../flathub/fr.rouene.Susurre.yaml
+```
+
+The source becomes a git source pinned to the tag *and* its commit; every
+comment and every other line is carried over untouched. The tag has to exist
+locally, otherwise the script refuses rather than pinning nothing.
+
+Copy `cargo-sources.json` and `python3-faster-whisper.yaml` next to it, since
+the manifest refers to them by relative path, then open a pull request titled
+`Add fr.rouene.Susurre` against the **`new-pr`** branch of `flathub/flathub`.
 
 ## Development
 

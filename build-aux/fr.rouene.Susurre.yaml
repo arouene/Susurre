@@ -69,6 +69,6 @@ modules:
           - target
           - susurre.flatpak
       # Unpacks every crate under cargo/vendor and writes the cargo config that
-      # redirects crates-io to it. Listed after the directory so a stale vendor
-      # tree in the checkout cannot shadow it.
+      # redirects crates-io to it. Listed after the checkout so a stale vendor
+      # tree carried in the sources cannot shadow it.
       - cargo-sources.json
