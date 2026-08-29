@@ -7,7 +7,7 @@
 
 set -eu
 
-APP=fr.arouene.Susurre
+APP=fr.rouene.Susurre
 MANIFEST=build-aux/$APP.yaml
 cd "$(dirname "$0")"
 

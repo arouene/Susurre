@@ -2,7 +2,7 @@
 Name=Susurre
 Comment=Local voice dictation
 Exec=susurre
-Icon=fr.arouene.Susurre
+Icon=fr.rouene.Susurre
 Terminal=false
 Type=Application
 Categories=Utility;Accessibility;AudioVideo;

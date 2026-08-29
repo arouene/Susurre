@@ -1,4 +1,4 @@
-id: fr.arouene.Susurre
+id: fr.rouene.Susurre
 runtime: org.gnome.Platform
 runtime-version: '49'
 sdk: org.gnome.Sdk
@@ -50,12 +50,12 @@ modules:
       - cargo --offline build --release --features vulkan
       - install -Dm755 target/release/susurre /app/bin/susurre
       - install -Dm755 python/susurre-ct2.py /app/libexec/susurre-ct2.py
-      - install -Dm644 data/fr.arouene.Susurre.desktop
-        /app/share/applications/fr.arouene.Susurre.desktop
-      - install -Dm644 data/fr.arouene.Susurre.metainfo.xml
-        /app/share/metainfo/fr.arouene.Susurre.metainfo.xml
-      - install -Dm644 data/fr.arouene.Susurre.svg
-        /app/share/icons/hicolor/scalable/apps/fr.arouene.Susurre.svg
+      - install -Dm644 data/fr.rouene.Susurre.desktop
+        /app/share/applications/fr.rouene.Susurre.desktop
+      - install -Dm644 data/fr.rouene.Susurre.metainfo.xml
+        /app/share/metainfo/fr.rouene.Susurre.metainfo.xml
+      - install -Dm644 data/fr.rouene.Susurre.svg
+        /app/share/icons/hicolor/scalable/apps/fr.rouene.Susurre.svg
     sources:
       - type: dir
         path: ..

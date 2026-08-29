@@ -20,7 +20,7 @@ PROJECT=$(cd "$(dirname "$0")" && pwd)
 # Point XDG_DATA_HOME at the installed Flatpak's data directory so a build from
 # source reads the very same models as the packaged application, instead of
 # looking inside the SDK's own sandbox.
-APP_DATA=$HOME/.var/app/fr.arouene.Susurre/data
+APP_DATA=$HOME/.var/app/fr.rouene.Susurre/data
 
 if ! flatpak info "$SDK" >/dev/null 2>&1; then
     echo "SDK is missing. Install with:" >&2

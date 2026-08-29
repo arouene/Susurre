@@ -5,7 +5,7 @@ whatever application you are using.**
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Rust](https://img.shields.io/badge/Rust-GTK4%20%2F%20libadwaita-orange.svg)](https://gtk-rs.org)
-[![Flatpak](https://img.shields.io/badge/Flatpak-GNOME%2049-4a86cf.svg)](build-aux/fr.arouene.Susurre.yaml)
+[![Flatpak](https://img.shields.io/badge/Flatpak-GNOME%2049-4a86cf.svg)](build-aux/fr.rouene.Susurre.yaml)
 
 <p align="center">
 <img width="506" height="851" alt="Susurre UI-min" src="https://github.com/user-attachments/assets/a1c0761e-e785-4fa6-9404-9bdeee24136f" />
@@ -30,7 +30,7 @@ hold shortcut -> microphone -> voice activity -> Whisper -> your commands -> key
   detection and beam search.
 - **Model manager.** Download, update, and delete models from the settings
   window, with a progress bar. Models come from Hugging Face and live under
-  `~/.var/app/fr.arouene.Susurre/data/susurre/models`.
+  `~/.var/app/fr.rouene.Susurre/data/susurre/models`.
 - **Language agnostic.** Nothing in the application assumes a language. Pin one
   in the settings, or leave automatic detection on.
 - **Text replacement.** Define your own substitutions, such as speaking "new
@@ -77,7 +77,7 @@ on the machine, so the build behaves the same everywhere. Add
 rebuild from an empty cache.
 
 ```sh
-flatpak run fr.arouene.Susurre
+flatpak run fr.rouene.Susurre
 ```
 
 ## First run
@@ -93,13 +93,13 @@ flatpak run fr.arouene.Susurre
    to inject keystrokes. Grant it once, and the restore token is saved.
 
 To reopen the settings later: the **Susurre** icon in the app grid, or
-`flatpak run fr.arouene.Susurre`, or Quick Settings > **Background
+`flatpak run fr.rouene.Susurre`, or Quick Settings > **Background
 Apps**.
 
 ## Configuration
 
 Everything in the settings window is written immediately to
-`~/.var/app/fr.arouene.Susurre/config/susurre/config.toml`. The file is
+`~/.var/app/fr.rouene.Susurre/config/susurre/config.toml`. The file is
 re-read before every dictation, so hand edits take effect without a restart.
 
 | Setting | Meaning |
@@ -337,7 +337,7 @@ through XDG portals, which are mediated by the user and need no manifest entry.
 | `--filesystem=xdg-cache/ibus` | The IBus private bus socket, to register the input engine |
 | `--filesystem=xdg-config/ibus:ro` | The file naming that socket's address |
 
-`flatpak info --show-permissions fr.arouene.Susurre` prints what is actually
+`flatpak info --show-permissions fr.rouene.Susurre` prints what is actually
 installed, and Settings > Apps > Susurre lets you revoke any of it.
 
 ## Known limitations

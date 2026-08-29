@@ -50,7 +50,7 @@ jobs:
       - name: Build
         uses: flatpak/flatpak-github-actions/flatpak-builder@401fe28a8384095fc1531b9d320b292f0ee45adb # v6.7
         with:
-          manifest-path: build-aux/fr.arouene.Susurre.yaml
+          manifest-path: build-aux/fr.rouene.Susurre.yaml
           bundle: susurre.flatpak
           # The vendored sources are part of the build inputs, so a crate or
           # wheel bump has to invalidate the cache along with the manifest.
