@@ -208,6 +208,7 @@ in silence.
 | `build-aux/cargo-sources.json` | Generated. Every crate, sha256 pinned |
 | `build-aux/python3-faster-whisper.yaml` | Generated. Every wheel, sha256 pinned |
 | `build-aux/update-vendor.sh` | Regenerates both of the above |
+| `build-aux/check-vendor.py` | Fails the build when they drift from `Cargo.lock` |
 
 ### Vendored dependencies
 
@@ -217,11 +218,20 @@ the `faster-whisper` dependency tree, and both files are committed. That is
 what Flathub requires, and it also means a build is reproducible and cannot
 pick up a package that changed under it.
 
-Regenerate them whenever `Cargo.lock` changes or `faster-whisper` is bumped:
+Development does not go through any of this. `./dev.sh` runs cargo online
+against the host registry and never reads the manifest, so the vendored tree
+only matters when packaging.
+
+Regenerate it whenever `Cargo.lock` changes or `faster-whisper` is bumped:
 
 ```sh
 ./build-aux/update-vendor.sh
 ```
+
+`build-flatpak.sh` refuses to start when the vendored crates no longer match
+`Cargo.lock`, and names the command above. Without that check the build would
+fail much later, inside cargo, complaining that a crate is missing from a
+vendor directory it never mentions how to fill.
 
 The script fetches `flatpak-cargo-generator` and `flatpak-pip-generator` into a
 throwaway virtualenv, since neither is packaged anywhere useful. It also

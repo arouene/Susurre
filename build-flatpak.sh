@@ -27,6 +27,12 @@ for arg in "$@"; do
     esac
 done
 
+# The Flatpak build is offline, so a dependency change that has not been
+# regenerated would fail deep inside cargo with no hint about the generator.
+# Development does not go through here at all: ./dev.sh runs cargo online
+# against the host registry and ignores the vendored tree entirely.
+./build-aux/check-vendor.py
+
 # Always use org.flatpak.Builder, this is what Flathub recommends.
 if ! flatpak info org.flatpak.Builder >/dev/null 2>&1; then
     echo "Installing org.flatpak.Builder..." >&2
