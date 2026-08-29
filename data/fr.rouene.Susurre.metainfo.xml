@@ -25,8 +25,12 @@
        reachable: Flathub renders these from the web, not from the build. -->
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/arouene/Susurre/main/screenshots/settings.png</image>
-      <caption>Choosing the engine, the model and the dictation shortcut</caption>
+      <image>https://raw.githubusercontent.com/arouene/Susurre/main/screenshots/settings1.png</image>
+      <caption>Choosing the engine, the model, the language and the dictation shortcut</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/arouene/Susurre/main/screenshots/settings2.png</image>
+      <caption>Text replacements, and the models downloaded on this machine</caption>
     </screenshot>
   </screenshots>
   <releases>
