@@ -4,6 +4,7 @@
 #   ./build-flatpak.sh            build and install for the current user
 #   ./build-flatpak.sh --bundle   also produce susurre.flatpak, distributable
 #   ./build-flatpak.sh --clean    start from an empty cache
+#   ./build-flatpak.sh --flathub  dry run the submission, does not install
 
 set -eu
 
@@ -12,13 +13,20 @@ MANIFEST=build-aux/$APP.yaml
 cd "$(dirname "$0")"
 
 bundle=false
+flathub=
 for arg in "$@"; do
     case "$arg" in
         --bundle)
             bundle=true
             ;;
+        --flathub)
+            flathub=$(git describe --tags --abbrev=0)
+            ;;
+        --flathub=*)
+            flathub=${arg#*=}
+            ;;
         --clean)
-            rm -rf .flatpak-builder build repo
+            rm -rf .flatpak-builder build repo .flathub-rehearsal
             ;;
         *)
             echo "unknown argument: $arg" >&2
@@ -37,6 +45,40 @@ done
 if ! flatpak info org.flatpak.Builder >/dev/null 2>&1; then
     echo "Installing org.flatpak.Builder..." >&2
     flatpak install -y --user flathub org.flatpak.Builder
+fi
+
+# Rehearses the Flathub submission rather than a local install.
+#
+# Two things differ from the build below and both have caught real problems:
+# the manifest is the generated one, whose git source is the only kind Flathub
+# can fetch, and flathub-build passes --sandbox, which drops the build-args a
+# local build silently allows. A module that still wanted the network would
+# pass here and fail only in review.
+#
+# Linter findings are printed but do not fail the run: an error can be a
+# legitimate exception to request in the submission, as the IBus paths are.
+if [ -n "$flathub" ]; then
+    # A fixed directory rather than a mktemp one: flatpak-builder keeps its
+    # download cache and its ccache beside the manifest, and a throwaway
+    # directory made every rehearsal refetch all 317 crates and recompile
+    # whisper.cpp from scratch. Purged by --clean.
+    work=$PWD/.flathub-rehearsal
+    mkdir -p "$work"
+    cp build-aux/cargo-sources.json build-aux/python3-faster-whisper.yaml "$work/"
+    ./build-aux/flathub-manifest.py "$flathub" > "$work/$APP.yaml"
+    echo "Rehearsing $APP at $flathub in $work"
+
+    ( cd "$work" && flatpak run --filesystem="$work" \
+        --command=flathub-build org.flatpak.Builder "$APP.yaml" )
+
+    for target in "manifest $work/$APP.yaml" "repo $work/repo"; do
+        # shellcheck disable=SC2086
+        set -- $target
+        echo "== flatpak-builder-lint $1"
+        flatpak run --filesystem="$work" \
+            --command=flatpak-builder-lint org.flatpak.Builder "$1" "$2" || true
+    done
+    exit 0
 fi
 
 build() {

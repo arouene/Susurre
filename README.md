@@ -259,6 +259,28 @@ Copy `cargo-sources.json` and `python3-faster-whisper.yaml` next to it, since
 the manifest refers to them by relative path, then open a pull request titled
 `Add fr.rouene.Susurre` against the **`new-pr`** branch of `flathub/flathub`.
 
+Rehearse the whole thing first, which is what Flathub's builder actually runs:
+
+```sh
+./build-flatpak.sh --flathub          # the most recent tag
+./build-flatpak.sh --flathub=v1.0.0
+```
+
+It builds the generated manifest with `flathub-build`, whose `--sandbox` drops
+the `build-args` a local build silently allows, then runs both linter passes.
+Findings are printed without failing the run, because an error can be a
+legitimate exception to request rather than something to fix. Two are expected:
+
+```
+finish-args-unnecessary-xdg-cache-ibus-rw-access
+finish-args-unnecessary-xdg-config-ibus-ro-access
+```
+
+The rule is generic to any `xdg-config` or `xdg-cache` subdirectory and says
+nothing about IBus specifically. Around a hundred applications carry an
+exception of that class, granted by reviewers and recorded in the linter's
+`exceptions.json`, so ask for one in the submission and justify it there.
+
 ## Development
 
 With `gtk4-devel` and `libadwaita-devel` installed, cargo works directly:

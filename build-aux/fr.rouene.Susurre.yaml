@@ -22,7 +22,9 @@ finish-args:
   - --talk-name=org.gnome.Settings
   # IBus engine: the private bus socket, and the file naming its address.
   # This is what lets dictation insert text the keyboard layout cannot type.
-  - --filesystem=xdg-cache/ibus
+  # rw is what the socket needs, and it is spelled out rather than left
+  # implicit so the Flathub linter exception can name the exact mode.
+  - --filesystem=xdg-cache/ibus:rw
   - --filesystem=xdg-config/ibus:ro
   # GlobalShortcuts, RemoteDesktop and Background go through
   # xdg-desktop-portal, reachable by default. No extra permission needed.

@@ -4,3 +4,5 @@ repo/
 .cargo-sdk/
 .flatpak-builder/
 susurre.flatpak
+builddir/
+.flathub-rehearsal/
