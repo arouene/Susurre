@@ -34,22 +34,20 @@ build-options:
     CARGO_HOME: /run/build/susurre/cargo
     LIBCLANG_PATH: /usr/lib/sdk/llvm20/lib
 
+# Both modules build offline: every crate and every wheel is a source with a
+# pinned sha256, so the build has no network and no unpinned dependency.
+# Regenerate the two generated files with ./build-aux/update-vendor.sh after
+# touching Cargo.lock or the faster-whisper version.
 modules:
-  - name: faster-whisper
-    buildsystem: simple
-    build-options:
-      build-args:
-        - --share=network
-    build-commands:
-      - pip3 install --prefix=/app --no-compile faster-whisper
+  - python3-faster-whisper.yaml
 
   - name: susurre
     buildsystem: simple
-    build-options:
-      build-args:
-        - --share=network
     build-commands:
-      - cargo build --release --features vulkan
+      # --offline so a crate missing from the vendor tree fails here instead of
+      # silently reaching the network.
+      - cargo --offline fetch --manifest-path Cargo.toml
+      - cargo --offline build --release --features vulkan
       - install -Dm755 target/release/susurre /app/bin/susurre
       - install -Dm755 python/susurre-ct2.py /app/libexec/susurre-ct2.py
       - install -Dm644 data/fr.arouene.Susurre.desktop
@@ -63,8 +61,14 @@ modules:
         path: ..
         skip:
           - .git
+          - .github
           - .flatpak-builder
           - .cargo-sdk
           - build
           - repo
           - target
+          - susurre.flatpak
+      # Unpacks every crate under cargo/vendor and writes the cargo config that
+      # redirects crates-io to it. Listed after the directory so a stale vendor
+      # tree in the checkout cannot shadow it.
+      - cargo-sources.json

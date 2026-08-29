@@ -205,6 +205,40 @@ in silence.
 | `src/ui.rs` | libadwaita settings window |
 | `src/tray.rs` | StatusNotifierItem |
 | `python/susurre-ct2.py` | faster-whisper helper process |
+| `build-aux/cargo-sources.json` | Generated. Every crate, sha256 pinned |
+| `build-aux/python3-faster-whisper.yaml` | Generated. Every wheel, sha256 pinned |
+| `build-aux/update-vendor.sh` | Regenerates both of the above |
+| `build-aux/check-vendor.py` | Fails the build when they drift from `Cargo.lock` |
+
+### Vendored dependencies
+
+The Flatpak build has no network. Every crate and every Python wheel is a
+manifest source with a pinned `sha256`, generated from `Cargo.lock` and from
+the `faster-whisper` dependency tree, and both files are committed. That is
+what Flathub requires, and it also means a build is reproducible and cannot
+pick up a package that changed under it.
+
+Development does not go through any of this. `./dev.sh` runs cargo online
+against the host registry and never reads the manifest, so the vendored tree
+only matters when packaging.
+
+Regenerate it whenever `Cargo.lock` changes or `faster-whisper` is bumped:
+
+```sh
+./build-aux/update-vendor.sh
+```
+
+`build-flatpak.sh` refuses to start when the vendored crates no longer match
+`Cargo.lock`, and names the command above. Without that check the build would
+fail much later, inside cargo, complaining that a crate is missing from a
+vendor directory it never mentions how to fill.
+
+The script fetches `flatpak-cargo-generator` and `flatpak-pip-generator` into a
+throwaway virtualenv, since neither is packaged anywhere useful. It also
+carries the list of packages that must come as platform wheels rather than
+source archives: `tokenizers` and `hf-xet` are Rust, `av` is C against ffmpeg,
+`numpy` wants meson and a BLAS. Building those from source inside an offline
+sandbox is not worth attempting.
 
 ## Development
 
@@ -308,9 +342,6 @@ installed, and Settings > Apps > Susurre lets you revoke any of it.
 
 ## Known limitations
 
-- The Flatpak build downloads crates and Python wheels at build time. Flathub
-  submission requires vendored sources through `flatpak-cargo-generator` and
-  `flatpak-pip-generator`.
 - No streaming transcription. Audio is decoded after you release the key.
 - GPU offload covers whisper.cpp only, through Vulkan. faster-whisper runs on
   CPU, since CTranslate2 offers CUDA and nothing else.

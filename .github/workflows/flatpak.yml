@@ -1,0 +1,97 @@
+name: Flatpak
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+# Nothing is granted by default. The release job below asks for the one scope
+# it needs, so a pull request build holds a token that can only read.
+permissions: {}
+
+# A superseded build of the same ref is wasted runner time, but a tag build is
+# never cancelled: it is the one that produces a release artefact.
+concurrency:
+  group: flatpak-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+jobs:
+  build:
+    name: Build bundle
+    runs-on: ubuntu-latest
+    # Matches runtime-version 49 in the manifest. The image already carries the
+    # GNOME runtime and SDK, and --install-deps-from pulls the two
+    # sdk-extensions the manifest names.
+    #
+    # --privileged is unavoidable: flatpak-builder nests bubblewrap, which a
+    # default container refuses. It is also why nothing sensitive may be
+    # reachable from this job, hence the empty permissions and the checkout
+    # without credentials below. The build itself has no network: every crate
+    # and wheel is a vendored source with a pinned sha256.
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-49@sha256:bd2f9bf82e76253a5913b7edc0557fc045ad8bf96c6ce4e085740ae8e2ad7349
+      options: --privileged
+    permissions:
+      contents: read
+    # whisper.cpp and its Vulkan backend are a large C++ build on a small
+    # runner. The sources themselves are vendored, so nothing is fetched.
+    timeout-minutes: 90
+    steps:
+      # persist-credentials: false keeps the job token out of .git/config. The
+      # build runs third party code (cargo build scripts, pip install), so a
+      # token left on disk would be one dependency away from leaking.
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Build
+        uses: flatpak/flatpak-github-actions/flatpak-builder@401fe28a8384095fc1531b9d320b292f0ee45adb # v6.7
+        with:
+          manifest-path: build-aux/fr.arouene.Susurre.yaml
+          bundle: susurre.flatpak
+          # The vendored sources are part of the build inputs, so a crate or
+          # wheel bump has to invalidate the cache along with the manifest.
+          cache-key: flatpak-builder-${{ hashFiles('build-aux/*.yaml', 'build-aux/cargo-sources.json') }}
+          # Uploaded below under a fixed name, so the release job can find it.
+          upload-artifact: false
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: susurre-flatpak
+          path: susurre.flatpak
+          if-no-files-found: error
+
+  release:
+    name: Attach to the release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    # The only job that writes anything, and it never runs third party code.
+    permissions:
+      contents: write
+    steps:
+      - name: Download bundle
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: susurre-flatpak
+
+      # Created as a draft: the tag build produces the artefact, publishing
+      # stays a human decision.
+      #
+      # GITHUB_REF_NAME is quoted and passed as an argument, never interpolated
+      # into the script: a ref name is attacker controlled on a fork, and
+      # ${{ }} inside run: would splice it straight into the shell.
+      - name: Draft the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --draft \
+            --generate-notes \
+            --title "$GITHUB_REF_NAME" \
+            susurre.flatpak
