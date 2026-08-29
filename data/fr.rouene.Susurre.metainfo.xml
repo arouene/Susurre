@@ -21,6 +21,14 @@
   </developer>
   <update_contact>aurelien@rouene.fr</update_contact>
   <content_rating type="oars-1.1"/>
+  <!-- AppStream takes PNG or JPEG here, never GIF, and the URL has to be
+       reachable: Flathub renders these from the web, not from the build. -->
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/arouene/Susurre/main/screenshots/settings.png</image>
+      <caption>Choosing the engine, the model and the dictation shortcut</caption>
+    </screenshot>
+  </screenshots>
   <releases>
     <release version="1.0.0" date="2026-08-29"/>
     <release version="0.1.0" date="2026-08-26"/>
