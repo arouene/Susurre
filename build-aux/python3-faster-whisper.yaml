@@ -1,0 +1,241 @@
+# Generated with flatpak-pip-generator --runtime=org.gnome.Sdk//49 --cleanup=scripts --checker-data --yaml --prefer-wheels=onnxruntime,ctranslate2,av,hf-xet,numpy,pyyaml,tokenizers -o build-aux/python3-faster-whisper faster-whisper
+name: python3-faster-whisper
+buildsystem: simple
+build-commands:
+  - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
+    --prefix=${FLATPAK_DEST} "faster-whisper" --no-build-isolation
+sources:
+  - type: file
+    url: https://files.pythonhosted.org/packages/da/35/f2287558c17e29fafc8ef3daf819bb9834061cfa43bff8014f7df7f63bdc/anyio-4.14.2-py3-none-any.whl
+    sha256: 9f505dda5ac9f0c8309b5e8bd445a8c2bf7246f3ce950121e45ea15bc41d1494
+    x-checker-data:
+      type: pypi
+      name: anyio
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/27/3a/204dbfc3e08eb4cdc6e6ff57be02150bc44523ebdb50182d10025792ebd9/av-18.1.0-cp311-abi3-manylinux_2_28_x86_64.whl
+    sha256: 8a032e8d8ebc73dec079364b9b4a6837638a2d106e8472314e685ffbf163e700
+    only-arches:
+      - x86_64
+    x-checker-data:
+      type: pypi
+      name: av
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/d9/84/2464ffb64c08c5ce8b522c8e74594714414e3b0575267652c5c51c0574b9/av-18.1.0-cp311-abi3-manylinux_2_28_aarch64.whl
+    sha256: 6fc837cc51adf80331ac850779cd53b5d4c4460b0ebe9057a02a921c6736f19d
+    only-arches:
+      - aarch64
+    x-checker-data:
+      type: pypi
+      name: av
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/0b/a7/71ac2cff56fec219ed242bb11b8efb69fcc4bec75db06fb7bfe35de520e6/certifi-2026.7.22-py3-none-any.whl
+    sha256: 62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775
+    x-checker-data:
+      type: pypi
+      name: certifi
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/58/50/6c0d534c5f134586a8e1ba4e330569e32f057e33372ae556463212fb4cd3/click-8.5.0-py3-none-any.whl
+    sha256: 255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360
+    x-checker-data:
+      type: pypi
+      name: click
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/99/4a/21f325a9d0925d8ad24b04249adf29bf9909442967603634f7f6d4acbb79/ctranslate2-4.8.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+    sha256: 4242a7f8e285f922525f4cffd5b1fb43cbacc61d0611cf54832e9c447d030840
+    only-arches:
+      - x86_64
+    x-checker-data:
+      type: pypi
+      name: ctranslate2
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/1d/2f/ea7a19c6d7e949b731fb034664633184bbfc7882846d107f4d790693fb76/ctranslate2-4.8.1-cp313-cp313-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl
+    sha256: 0030670278a73cae09dff9bca72cdd248af61f9367257f18db9b3b94fbb3a50d
+    only-arches:
+      - aarch64
+    x-checker-data:
+      type: pypi
+      name: ctranslate2
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/05/99/49ee85903dee060d9f08297b4a342e5e0bcfca2f027a07b4ee0a38ab13f9/faster_whisper-1.2.1-py3-none-any.whl
+    sha256: 79a66ad50688c0b794dd501dc340a736992a6342f7f95e5811be60b5224a26a7
+    x-checker-data:
+      type: pypi
+      name: faster-whisper
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/01/a4/9b63d595d748e3aff8812b65eacc1a2c4bd90b7c2012e08e72373b4835eb/filelock-3.32.4-py3-none-any.whl
+    sha256: 22e58ca3b1ae3b98993b762d7338367ae64fe50252bf78d59da3bfebcdf1cedd
+    x-checker-data:
+      type: pypi
+      name: filelock
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/e8/2d/d2a548598be01649e2d46231d151a6c56d10b964d94043a335ae56ea2d92/flatbuffers-25.12.19-py2.py3-none-any.whl
+    sha256: 7634f50c427838bb021c2d66a3d1168e9d199b0607e6329399f04846d42e20b4
+    x-checker-data:
+      type: pypi
+      name: flatbuffers
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/fd/3c/6a2bf344106328fd04963664a60b9bb6496fc25df8e962fcdc1367285fb9/fsspec-2026.7.0-py3-none-any.whl
+    sha256: b57ddbafedfaef7018c1ecab32aa200a9d7ca26b77965f64e48b70061249d279
+    x-checker-data:
+      type: pypi
+      name: fsspec
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/04/4b/29cac41a4d98d144bf5f6d33995617b185d14b22401f75ca86f384e87ff1/h11-0.16.0-py3-none-any.whl
+    sha256: 63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86
+    x-checker-data:
+      type: pypi
+      name: h11
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/67/4e/a28359bf1c1ecf11eba22123168c138698f7cb576ac678f5a2e16cd5da08/hf_xet-1.6.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+    sha256: d62671bb130879cef0ee4c9ebe47a14af6c66ec53e6d84dc15936e5ffdfac82f
+    only-arches:
+      - x86_64
+    x-checker-data:
+      type: pypi
+      name: hf-xet
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/9a/69/1f0cbc2fb22ae6082d094f743d1b8945a3f36f6089cb95f42b7ee348cda7/hf_xet-1.6.0-cp38-abi3-manylinux_2_28_aarch64.whl
+    sha256: 0e6e21fa3cdfcdcd76748564bf593870a5e013f47d97cf10aed63aa222cff5b7
+    only-arches:
+      - aarch64
+    x-checker-data:
+      type: pypi
+      name: hf-xet
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/7e/f5/f66802a942d491edb555dd61e3a9961140fd64c90bce1eafd741609d334d/httpcore-1.0.9-py3-none-any.whl
+    sha256: 2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55
+    x-checker-data:
+      type: pypi
+      name: httpcore
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/2a/39/e50c7c3a983047577ee07d2a9e53faf5a69493943ec3f6a384bdc792deb2/httpx-0.28.1-py3-none-any.whl
+    sha256: d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad
+    x-checker-data:
+      type: pypi
+      name: httpx
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/4e/a5/47c2ea9b228ccbcba8467e9a64823146e8ebbad29855e591d8f5eedcc9c7/huggingface_hub-1.29.0-py3-none-any.whl
+    sha256: b00f7782afc14db4bc6572763810a635bdfbab8623d957bfb553bd18e03852cd
+    x-checker-data:
+      type: pypi
+      name: huggingface-hub
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/57/b0/0e52c878c53f245edd3a11020f20979b3f490f245af532c7cae3027754b5/idna-3.19-py3-none-any.whl
+    sha256: 815e7be7a7806d54abb586dc943addc79e8b2ee16915059658cbeff4b1b43bf4
+    x-checker-data:
+      type: pypi
+      name: idna
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/7b/44/59a1eb68e773c4098d107ef34a0dbdeca501d72ffcfbff9a7707343921ce/numpy-2.5.2-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+    sha256: 29b86ff8a6cc556b47ec6b64b194815cc80e6bf5eedcc6cddfd65318cb0b4eee
+    only-arches:
+      - x86_64
+    x-checker-data:
+      type: pypi
+      name: numpy
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/29/f1/2a64a307d92c5d98f5255a4014eb43bb6103ee477087b61ecae44a3aa9b9/numpy-2.5.2-cp313-cp313-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl
+    sha256: 0aadf13b60048d501e05fa699efaf7734e2494f3498a4c2a5521d822640324f3
+    only-arches:
+      - aarch64
+    x-checker-data:
+      type: pypi
+      name: numpy
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/83/2c/d8eb945d2a372149df9705a8d5c8d7c6c46c987c5446dbcea9e1ea7f6556/onnxruntime-1.29.0-cp313-cp313-manylinux_2_28_x86_64.whl
+    sha256: e2128f31f449e922c62dbe5d8b6b7b079f0bcaf2d56a102fa203cb6e5bb5ab19
+    only-arches:
+      - x86_64
+    x-checker-data:
+      type: pypi
+      name: onnxruntime
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/c9/17/b9ad04051a8c4f504852ce0e8e10f9a6b2f1a331eedcdcc503df776dd0ea/onnxruntime-1.29.0-cp313-cp313-manylinux_2_28_aarch64.whl
+    sha256: d67673c5367727860922c5262d724472f1b5539fb7ccf4c81a638f9b71719803
+    only-arches:
+      - aarch64
+    x-checker-data:
+      type: pypi
+      name: onnxruntime
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/01/c3/629999e78d46c1115c11886d51c6bd68c17ce4a944f1ea3e153a91316a33/protobuf-7.36.0-py3-none-any.whl
+    sha256: 53374d53fc29a67f7dbbf0ade47d7526a0f0137bf0f9c90e48d8a60790ef748c
+    x-checker-data:
+      type: pypi
+      name: protobuf
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/74/27/e5b8f34d02d9995b80abcef563ea1f8b56d20134d8f4e5e81733b1feceb2/pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+    sha256: 0f29edc409a6392443abf94b9cf89ce99889a1dd5376d94316ae5145dfedd5d6
+    only-arches:
+      - x86_64
+    x-checker-data:
+      type: pypi
+      name: pyyaml
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/50/31/b20f376d3f810b9b2371e72ef5adb33879b25edb7a6d072cb7ca0c486398/pyyaml-6.0.3-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl
+    sha256: ee2922902c45ae8ccada2c5b501ab86c36525b883eff4255313a253a3160861c
+    only-arches:
+      - aarch64
+    x-checker-data:
+      type: pypi
+      name: pyyaml
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/0d/d5/1353e5f677ec27c2494fb6a6725e82d56c985f53e90ec511369e7e4f02c6/tokenizers-0.23.1-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+    sha256: 5075b405006415ea148a992d093699c66eb01952bf59f4d5727089a98bda45a4
+    only-arches:
+      - x86_64
+    x-checker-data:
+      type: pypi
+      name: tokenizers
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/6c/36/e006edf031154cba92b8416057d92c3abe3635e4c4b0aa0b5b9bb39dde70/tokenizers-0.23.1-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
+    sha256: 1bf13402aff9bc533c89cb849ec3b412dc3fbeacc9744840e423d7bf3f7dc0e3
+    only-arches:
+      - aarch64
+    x-checker-data:
+      type: pypi
+      name: tokenizers
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/f9/1c/01bfd571a64e7f270e6bab5e33777debe0edc56759233ce84f27dec92d14/tqdm-4.70.0-py3-none-any.whl
+    sha256: 7f585706bfddbdebf89daac705b2dfcc16890130727d3197ca62c732b4310953
+    x-checker-data:
+      type: pypi
+      name: tqdm
+      packagetype: bdist_wheel
+  - type: file
+    url: https://files.pythonhosted.org/packages/49/d3/b8441a820a491ddfc024b0b0cf0393375b75ea13866d9c66727e54c2fc80/typing_extensions-4.16.0-py3-none-any.whl
+    sha256: 481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8
+    x-checker-data:
+      type: pypi
+      name: typing-extensions
+      packagetype: bdist_wheel
+cleanup:
+  - /bin
+  - /share/man/man1

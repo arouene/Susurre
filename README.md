@@ -205,6 +205,30 @@ in silence.
 | `src/ui.rs` | libadwaita settings window |
 | `src/tray.rs` | StatusNotifierItem |
 | `python/susurre-ct2.py` | faster-whisper helper process |
+| `build-aux/cargo-sources.json` | Generated. Every crate, sha256 pinned |
+| `build-aux/python3-faster-whisper.yaml` | Generated. Every wheel, sha256 pinned |
+| `build-aux/update-vendor.sh` | Regenerates both of the above |
+
+### Vendored dependencies
+
+The Flatpak build has no network. Every crate and every Python wheel is a
+manifest source with a pinned `sha256`, generated from `Cargo.lock` and from
+the `faster-whisper` dependency tree, and both files are committed. That is
+what Flathub requires, and it also means a build is reproducible and cannot
+pick up a package that changed under it.
+
+Regenerate them whenever `Cargo.lock` changes or `faster-whisper` is bumped:
+
+```sh
+./build-aux/update-vendor.sh
+```
+
+The script fetches `flatpak-cargo-generator` and `flatpak-pip-generator` into a
+throwaway virtualenv, since neither is packaged anywhere useful. It also
+carries the list of packages that must come as platform wheels rather than
+source archives: `tokenizers` and `hf-xet` are Rust, `av` is C against ffmpeg,
+`numpy` wants meson and a BLAS. Building those from source inside an offline
+sandbox is not worth attempting.
 
 ## Development
 
@@ -308,9 +332,6 @@ installed, and Settings > Apps > Susurre lets you revoke any of it.
 
 ## Known limitations
 
-- The Flatpak build downloads crates and Python wheels at build time. Flathub
-  submission requires vendored sources through `flatpak-cargo-generator` and
-  `flatpak-pip-generator`.
 - No streaming transcription. Audio is decoded after you release the key.
 - GPU offload covers whisper.cpp only, through Vulkan. faster-whisper runs on
   CPU, since CTranslate2 offers CUDA and nothing else.
