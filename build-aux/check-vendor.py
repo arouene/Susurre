@@ -13,11 +13,22 @@ import sys
 here = pathlib.Path(__file__).parent
 
 lock = here.parent / "Cargo.lock"
-locked = set(
-    re.findall(r'^name = "(.+)"\nversion = "(.+)"$', lock.read_text(), re.M)
-)
-# The workspace member itself has no source and is never vendored.
-locked = {f"{n}-{v}" for n, v in locked} - {"susurre-0.1.0"}
+locked = {
+    f"{name}-{version}"
+    for name, version in re.findall(
+        r'^name = "(.+)"\nversion = "(.+)"$', lock.read_text(), re.M
+    )
+}
+
+# The crate being built has no source of its own and is never vendored. Read it
+# from Cargo.toml rather than hardcoding it, so a version bump does not turn
+# into a spurious failure on the day of a release.
+manifest = (here.parent / "Cargo.toml").read_text()
+root = re.search(r'^name = "(.+)"$', manifest, re.M)
+version = re.search(r'^version = "(.+)"$', manifest, re.M)
+if not root or not version:
+    sys.exit("cannot read the package name and version from Cargo.toml")
+locked -= {f"{root[1]}-{version[1]}"}
 
 sources = json.loads((here / "cargo-sources.json").read_text())
 vendored = {
