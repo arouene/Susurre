@@ -17,6 +17,9 @@ use std::rc::Rc;
 /// Longest a recording may run, in case the shortcut release is lost.
 const MAX_RECORDING_SECS: u32 = 120;
 
+/// Audio kept after the shortcut is released, see `stop_recording`.
+const TAIL_GRACE: std::time::Duration = std::time::Duration::from_millis(400);
+
 #[derive(Debug, Clone)]
 pub enum Cmd {
     /// Shortcut pressed: start capturing.
@@ -205,6 +208,14 @@ async fn stop_recording(app: &adw::Application, state: &Rc<State>) {
     let Some(recorder) = state.recorder.borrow_mut().take() else {
         return;
     };
+    // A speaker lets the key go on the last syllable rather than after it, and
+    // the release still has to travel through the compositor and the portal
+    // before it lands here. Ending the capture at this instant loses the end
+    // of the sentence. The stream keeps filling its buffer during the wait,
+    // and trim_silence drops the part of the grace period that is only
+    // silence, so a tail long enough for the slowest release costs nothing on
+    // the others.
+    glib::timeout_future(TAIL_GRACE).await;
     let pcm = recorder.finish();
     log::info!(
         "recording stopped: {:.1} s",
