@@ -28,7 +28,7 @@ if ! flatpak info "$SDK" >/dev/null 2>&1; then
     exit 1
 fi
 
-exec flatpak run --devel --share=network --device=dri \
+exec flatpak run --devel --share=network --device=dri --socket=pulseaudio \
     --filesystem="$PROJECT" \
     --filesystem="$APP_DATA" \
     --command=sh "$SDK" -c '

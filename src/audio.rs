@@ -176,6 +176,19 @@ pub fn write_wav(path: &std::path::Path, pcm: &[f32]) -> Result<()> {
 mod tests {
     use super::*;
 
+    /// ./dev.sh test -- --ignored capture_latency --nocapture
+    #[test]
+    #[ignore]
+    fn capture_latency() {
+        let r = Recorder::start().expect("recorder");
+        let started = std::time::Instant::now();
+        std::thread::sleep(std::time::Duration::from_millis(3000));
+        let wall = started.elapsed().as_secs_f32();
+        let pcm = r.finish();
+        let got = pcm.len() as f32 / TARGET_RATE as f32;
+        println!("wall {wall:.3} s, captured {got:.3} s, lost {:.0} ms", (wall - got) * 1000.0);
+    }
+
     #[test]
     fn downmix_averages_channels() {
         assert_eq!(downmix(&[0.0, 1.0, 1.0, 3.0], 2), vec![0.5, 2.0]);
